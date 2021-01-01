@@ -14,7 +14,7 @@ import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,LoginFragment.onFragmentBtnSelected {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
       DrawerLayout drawerLayout;
       ActionBarDrawerToggle actionBarDrawerToggle;
       Toolbar toolbar;
@@ -81,11 +81,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    @Override
-    public void onButtonSelected() {
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container_fragment,new RegisterFragment());
-        fragmentTransaction.commit();
-    }
+
 }
