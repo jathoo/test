@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -72,13 +73,21 @@ public class RegisterFragment extends Fragment {
                     return;
                 }
 
+                rootNode = FirebaseDatabase.getInstance();
+                reference = rootNode.getReference("users");
+
+
                 fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) {
                           //  Toast.makeText(getActivity(), "User created", Toast.LENGTH_SHORT).show();
-                            // create user in profile (real time database ) 
-                            LoginFragment loginFragment = new LoginFragment();
+                            // create user in profile (real time database )
+                            FirebaseUser user = fAuth.getCurrentUser();
+                            UserHelperClass helperClass = new UserHelperClass(user.getUid(), email, password, name, phone);
+
+                            reference.child(user.getUid()).setValue(helperClass);
+                           LoginFragment loginFragment = new LoginFragment();
                             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                             fragmentTransaction.replace(R.id.container_fragment,loginFragment);
                             fragmentTransaction.commit();
